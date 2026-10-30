@@ -31,6 +31,15 @@ const ProtectedRoute = ({ children, allowedRoles = [] }) => {
   return children;
 };
 
+// Login/register pages: send already-signed-in users to their dashboard
+const PublicOnly = ({ children }) => {
+  const { currentUser, userProfile, loading } = useAuth();
+  if (loading) return <FullPageSpinner />;
+  if (currentUser && userProfile)
+    return <Navigate to={getRoleHome(userProfile.role)} replace />;
+  return children;
+};
+
 const RoleRedirect = () => {
   const { currentUser, userProfile, loading } = useAuth();
   if (loading) return <FullPageSpinner />;
@@ -73,8 +82,8 @@ const A = ({ children }) => (
 const AppRoutes = () => (
   <Routes>
     {/* Public */}
-    <Route path="/login"           element={<LoginPage />} />
-    <Route path="/register"        element={<RegisterPage />} />
+    <Route path="/login"           element={<PublicOnly><LoginPage /></PublicOnly>} />
+    <Route path="/register"        element={<PublicOnly><RegisterPage /></PublicOnly>} />
     <Route path="/forgot-password" element={<ForgotPasswordPage />} />
     <Route path="/"                element={<RoleRedirect />} />
 

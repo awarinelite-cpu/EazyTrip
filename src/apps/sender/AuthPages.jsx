@@ -6,7 +6,7 @@ import toast from "react-hot-toast";
 
 // ── Login Page ────────────────────────────────────────────────────
 export const LoginPage = () => {
-  const { login, userProfile } = useAuth();
+  const { login, fetchUserProfile } = useAuth();
   const navigate = useNavigate();
   const [form, setForm] = useState({ email: "", password: "" });
   const [loading, setLoading] = useState(false);
@@ -17,9 +17,10 @@ export const LoginPage = () => {
     if (!form.email || !form.password) return toast.error("Fill all fields");
     setLoading(true);
     try {
-      await login(form.email, form.password);
+      const cred = await login(form.email, form.password);
+      await fetchUserProfile(cred.user.uid);
       toast.success("Welcome back!");
-      // Navigation handled in App.jsx based on role
+      navigate("/", { replace: true }); // RoleRedirect sends to the right dashboard
     } catch (err) {
       toast.error(err.message || "Login failed");
     } finally {
@@ -76,7 +77,7 @@ export const LoginPage = () => {
 
 // ── Register Page ─────────────────────────────────────────────────
 export const RegisterPage = () => {
-  const { register } = useAuth();
+  const { register, fetchUserProfile } = useAuth();
   const navigate = useNavigate();
   const [role, setRole] = useState("sender");
   const [form, setForm] = useState({
@@ -104,8 +105,10 @@ export const RegisterPage = () => {
         extra.isVerified   = false; // needs KYC
         extra.isOnline     = false;
       }
-      await register(form.email, form.password, form.displayName, role, extra);
+      const cred = await register(form.email, form.password, form.displayName, role, extra);
+      await fetchUserProfile(cred.user.uid);
       toast.success("Account created! Welcome to Ridders 🎉");
+      navigate("/", { replace: true });
     } catch (err) {
       toast.error(err.message || "Registration failed");
     } finally {
