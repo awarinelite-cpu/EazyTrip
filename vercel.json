@@ -1,0 +1,8 @@
+{
+  "framework": "create-react-app",
+  "buildCommand": "npm run build",
+  "outputDirectory": "build",
+  "rewrites": [
+    { "source": "/((?!firebase-messaging-sw\\.js|static/).*)", "destination": "/index.html" }
+  ]
+}
