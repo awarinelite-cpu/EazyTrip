@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { useDelivery } from "../../context/DeliveryContext";
 import { Avatar, Badge, Button, Card, Divider, Spinner, EmptyState } from "../../components/common/UI";
-import { MapPlaceholder } from "../../components/maps/RiddersMap";
+import { RouteMap } from "../../components/maps/RouteMap";
 import { formatNaira, formatDate, VEHICLE_OPTIONS } from "../../utils/helpers";
 import { updateDocument, COLLECTIONS } from "../../firebase/firestore";
 import { doc, updateDoc, serverTimestamp, collection, query, where, orderBy, limit, onSnapshot } from "firebase/firestore";
@@ -124,7 +124,7 @@ export const RiderDashboardPage = () => {
       </div>
 
       {/* Map */}
-      <MapPlaceholder height="180px" label={activeDelivery ? `Active: ${activeDelivery.pickup} → ${activeDelivery.dropoff}` : "Your location"} />
+      <RouteMap height="180px" pickup={activeDelivery?.pickup} dropoff={activeDelivery?.dropoff} useMyLocation={!activeDelivery} label={activeDelivery ? "Active delivery" : ""} />
 
       <div style={{ padding: "0 16px 100px" }}>
 

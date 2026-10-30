@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useDelivery } from "../../context/DeliveryContext";
 import { Avatar, Badge, Button, Card, Divider, Spinner } from "../../components/common/UI";
-import { MapPlaceholder } from "../../components/maps/RiddersMap";
+import { RouteMap } from "../../components/maps/RouteMap";
 import { formatNaira, formatDate, STATUS_LABELS, STATUS_COLORS } from "../../utils/helpers";
 import { updateDocument, COLLECTIONS, addDocument } from "../../firebase/firestore";
 import toast from "react-hot-toast";
@@ -80,7 +80,7 @@ export const TrackDeliveryPage = () => {
       </div>
 
       {/* Map */}
-      <MapPlaceholder height="220px" label={`${d.pickup} → ${d.dropoff}`} />
+      <RouteMap height="220px" pickup={d.pickup} dropoff={d.dropoff} />
 
       <div style={{ padding: "16px 16px 100px" }}>
 

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { Button, Input, Card, Divider } from "../../components/common/UI";
-import { MapPlaceholder } from "../../components/maps/RiddersMap";
+import { RouteMap } from "../../components/maps/RouteMap";
 import {
   calculateFare, estimatedMinutes, VEHICLE_OPTIONS, PACKAGE_TYPES, formatNaira
 } from "../../utils/helpers";
@@ -92,7 +92,7 @@ export const BookDeliveryPage = () => {
       </div>
 
       {/* Map */}
-      <MapPlaceholder height="200px" label={pickup && dropoff ? `${pickup} → ${dropoff}` : "Set pickup & dropoff"} />
+      <RouteMap height="200px" pickup={pickup} dropoff={dropoff} />
 
       <div style={{ padding: "0 16px 100px" }}>
 
